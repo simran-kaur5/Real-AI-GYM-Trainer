@@ -7,7 +7,7 @@ from services.state.session_default import initial_session_default
 from services.config.workout_config import EXERCISE_OPTIONS
 from services.ui.style_loader import load_css,inject_local_font
 from services.persistance.exercise_repository import _init_db
-from streamlit_webrtc import webrtc_streamer,WebRtcMode
+from streamlit_webrtc import webrtc_streamer,WebRtcMode,RTCConfiguration
 from services.tracking.metrics import sync_metrics_update
 from services.vision.exercise_video_processor import VideoProcessorClass
 from services.persistance.exercise_repository import get_users_exercise
@@ -16,6 +16,7 @@ from services.coaching.llm import LLMCoach
 from services.coaching.tts import TextToSpeech
 from services.coaching.voice_pipeline import VoicePipeline, autoplay_audio
 from dotenv import load_dotenv
+
 
 import os
 import sys
@@ -306,24 +307,20 @@ def main():
         """,unsafe_allow_html=True)
     else:
 
+        RTC_CONFIGURATION = RTCConfiguration(
+    {
+        "iceServers": [
+            {"urls": ["stun:stun.l.google.com:19302"]}
+        ]
+    }
+)
+
         context = webrtc_streamer(
-            key="exercise-analysis-v2",
-            mode=WebRtcMode.SENDONLY,
+            key="gym-trainer",
+            mode=WebRtcMode.SENDRECV,
+            rtc_configuration=RTC_CONFIGURATION,
             video_processor_factory=VideoProcessorClass,
-            rtc_configuration={
-                "iceServers": [
-                    {
-                        "urls": ["stun:stun.l.google.com:19302",
-                                 "stun:stun1.l.google.com:19302"
-                        ]
-                    }
-                ]
-            },
-            media_stream_constraints={
-                "video": True,
-                "audio": False
-            },
-            async_processing=True
+            async_processing=False,
         )
 
         sync_metrics_update(context)
