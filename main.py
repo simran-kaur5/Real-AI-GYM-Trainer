@@ -301,15 +301,12 @@ def main():
 
         context = webrtc_streamer(
             key="exercise-analysis",
-            mode=WebRtcMode.SENDONLY,
+            mode=WebRtcMode.SENDRECV,
             video_processor_factory=VideoProcessorClass,
             rtc_configuration={
                 "iceServers": [
                     {
-                        "urls": [
-                            "stun:stun.l.google.com:19302",
-                            "stun:stun1.l.google.com:19302"
-                        ]
+                        "urls": ["stun:stun.l.google.com:19302"]
                     }
                 ]
             },
