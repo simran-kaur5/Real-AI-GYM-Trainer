@@ -1,17 +1,17 @@
-import threading
 import os
 import cv2
 import av
 import numpy as np
 import mediapipe as mp
+import threading
 from streamlit_webrtc import VideoProcessorBase
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 from detectors.squat import SquatDetector
-from detectors.biceps_curls import BicepsCurlsDetector
-from detectors.lunges import LungesDetector 
 from detectors.pushup import PushUpsDetector
+from detectors.biceps_curls import BicepsCurlsDetector
 from detectors.shoulder_press import ShoulderPressDetector
+from detectors.lunges import LungesDetector
 from services.config.workout_config import POSE_CONNECTIONS
 
 class VideoProcessorClass(VideoProcessorBase):
@@ -41,8 +41,6 @@ class VideoProcessorClass(VideoProcessorBase):
             "Shoulder Press":ShoulderPressDetector(),
             "Lunges":LungesDetector()
         }
-
-
 
         self._frame_timestamps_ms = 0
 

@@ -9,6 +9,7 @@ from services.ui.style_loader import load_css,inject_local_font
 from services.persistance.exercise_repository import _init_db
 from streamlit_webrtc import webrtc_streamer,WebRtcMode
 from services.tracking.metrics import sync_metrics_update
+from services.vision.exercise_video_processor import VideoProcessorClass
 from services.persistance.exercise_repository import get_users_exercise
 from groq import Groq
 from services.coaching.llm import LLMCoach
@@ -297,8 +298,6 @@ def main():
             </div>
         """,unsafe_allow_html=True)
     else:
-
-        from services.vision.exercise_video_processor import VideoProcessorClass
 
         context = webrtc_streamer(
             key="exercise-analysis",
