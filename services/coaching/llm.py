@@ -26,7 +26,6 @@ class LLMCoach:
 
         text = response.choices[0].message.content.strip() # first generated ans
         # .strip removes extra spaces
-        print(text)
 
         self.history.append({"role":"assistant","content":text})
 

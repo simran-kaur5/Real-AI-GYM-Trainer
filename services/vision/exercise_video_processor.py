@@ -46,13 +46,10 @@ class VideoProcessorClass(VideoProcessorBase):
 
     def set_latest_metrics(self,metrics):
         with self._lock:
-            print("SET instance:", id(self))
             self._latest_metrics = metrics.copy()
 
     def get_latest_metrics(self):
-        print("GET instance:", id(self))
         with self._lock:
-            print("GET metrics:", self._latest_metrics)
             return None if self._latest_metrics is None else self._latest_metrics.copy()
 
     def set_exercise(self,exercise_type):

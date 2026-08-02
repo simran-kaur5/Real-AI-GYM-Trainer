@@ -13,9 +13,6 @@ class TextToSpeech:
         gTTS(text=cleaned,lang=lang).write_to_fp(buffer) # audio to buffer
         buffer.seek(0) # after wrting move pointer to start
 
-        print("Generating speech:", text)
-
         audio = buffer.read()
-        print("Audio bytes:", len(audio))
 
         return audio
