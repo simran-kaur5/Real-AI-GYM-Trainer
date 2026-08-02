@@ -298,19 +298,35 @@ def main():
             </div>
         """,unsafe_allow_html=True)
     else:
-        context = webrtc_streamer(
-            key="exerise-analysis",
-            mode=WebRtcMode.SENDRECV,
-            video_processor_factory=VideoProcessorClass, # no video processing
-            rtc_configuration={"iceServers":[{"urls":["stun:stun.l.google.com:19302","stun:stun1.l.google.com:19302","stun:stun2.l.google.com:19302"]}]},
-            media_stream_constraints={ # what media to req
-                "video":{"width": {"ideal": 640},
-            "height": {"ideal": 480},
-            "frameRate": {"ideal": 15}
-        },
-                "audio":False
+        RTC_CONFIGURATION = {
+    "iceServers": [
+        {
+            "urls": [
+                "stun:stun.l.google.com:19302",
+                "stun:stun1.l.google.com:19302",
+                "stun:stun2.l.google.com:19302"
+            ]
+        }
+    ]
+}
+
+
+    context = webrtc_streamer(
+        key="exercise-analysis",
+        mode=WebRtcMode.SENDRECV,
+
+        rtc_configuration=RTC_CONFIGURATION,
+
+        media_stream_constraints={
+            "video": {
+                "width": {"ideal": 640},
+                "height": {"ideal": 480},
+                "frameRate": {"ideal": 15}
             },
-            async_processing=True # simuntanous processing of all frames
+            "audio": False
+        },
+
+        async_processing=True
         )
 
         sync_metrics_update(context)
