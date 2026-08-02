@@ -306,16 +306,7 @@ def main():
                         "stun:stun1.l.google.com:19302",
                         "stun:stun2.l.google.com:19302"
                     ]
-                },
-                {
-                    "urls": [
-                        "turn:relay.metered.ca:80",
-                        "turn:relay.metered.ca:443",
-                        "turn:relay.metered.ca:443?transport=tcp"
-                    ],
-                    "username": "YOUR_USERNAME",
-                    "credential": "YOUR_PASSWORD"
-                    }
+                }
                 ]
             }
 
@@ -342,8 +333,11 @@ def main():
         sync_metrics_update(context)
 
         if context.state.playing:
-                time.sleep(0.25)
-                st.rerun()
+            st.write("WebRTC connected")
+            time.sleep(0.25)
+            st.rerun()
+        else:
+            st.write("WebRTC not connected")
 
     st.divider()
 
