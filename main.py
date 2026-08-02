@@ -299,41 +299,51 @@ def main():
         """,unsafe_allow_html=True)
     else:
         RTC_CONFIGURATION = {
-    "iceServers": [
-        {
-            "urls": [
-                "stun:stun.l.google.com:19302",
-                "stun:stun1.l.google.com:19302",
-                "stun:stun2.l.google.com:19302"
-            ]
-        }
-    ]
-}
+            "iceServers": [
+                {
+                    "urls": [
+                        "stun:stun.l.google.com:19302",
+                        "stun:stun1.l.google.com:19302",
+                        "stun:stun2.l.google.com:19302"
+                    ]
+                },
+                {
+                    "urls": [
+                        "turn:relay.metered.ca:80",
+                        "turn:relay.metered.ca:443",
+                        "turn:relay.metered.ca:443?transport=tcp"
+                    ],
+                    "username": "YOUR_USERNAME",
+                    "credential": "YOUR_PASSWORD"
+                    }
+                ]
+            }
 
 
-    context = webrtc_streamer(
-        key="exercise-analysis",
-        mode=WebRtcMode.SENDRECV,
+        context = webrtc_streamer(
+            key="exercise-analysis",
+            mode=WebRtcMode.SENDRECV,
+            video_processor_factory=VideoProcessorClass,
 
-        rtc_configuration=RTC_CONFIGURATION,
+            rtc_configuration=RTC_CONFIGURATION,
 
-        media_stream_constraints={
-            "video": {
-                "width": {"ideal": 640},
-                "height": {"ideal": 480},
-                "frameRate": {"ideal": 15}
+            media_stream_constraints={
+                "video": {
+                    "width": {"ideal": 640},
+                    "height": {"ideal": 480},
+                    "frameRate": {"ideal": 15}
+                },
+                "audio": False
             },
-            "audio": False
-        },
 
-        async_processing=True
-        )
+            async_processing=True
+            )
 
         sync_metrics_update(context)
 
         if context.state.playing:
-            time.sleep(0.25)
-            st.rerun()
+                time.sleep(0.25)
+                st.rerun()
 
     st.divider()
 
