@@ -302,7 +302,7 @@ def main():
             key="exerise-analysis",
             mode=WebRtcMode.SENDRECV,
             video_processor_factory=VideoProcessorClass, # no video processing
-            rtc_configuration={"iceServers":[{"urls":["stun:stun.l.google.com:19302"]}]},
+            rtc_configuration={"iceServers":[{"urls":["stun:stun.l.google.com:19302","stun:stun1.l.google.com:19302"]}]},
             media_stream_constraints={ # what media to req
                 "video":True,
                 "audio":False
