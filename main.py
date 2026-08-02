@@ -304,7 +304,10 @@ def main():
             video_processor_factory=VideoProcessorClass, # no video processing
             rtc_configuration={"iceServers":[{"urls":["stun:stun.l.google.com:19302","stun:stun1.l.google.com:19302"]}]},
             media_stream_constraints={ # what media to req
-                "video":True,
+                "video":{"width": {"ideal": 640},
+            "height": {"ideal": 480},
+            "frameRate": {"ideal": 15}
+        },
                 "audio":False
             },
             async_processing=True # simuntanous processing of all frames
