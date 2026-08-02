@@ -299,15 +299,24 @@ def main():
         """,unsafe_allow_html=True)
     else:
         context = webrtc_streamer(
-            key="exerise-analysis",
+            key="exercise-analysis",
             mode=WebRtcMode.SENDRECV,
-            video_processor_factory=VideoProcessorClass, # no video processing
-            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-            media_stream_constraints={ # what media to req
-                "video":True,
-                "audio":False
+            video_processor_factory=VideoProcessorClass,
+            rtc_configuration={
+                "iceServers": [
+                    {
+                        "urls": [
+                            "stun:stun.l.google.com:19302",
+                            "stun:stun1.l.google.com:19302"
+                        ]
+                    }
+                ]
             },
-            async_processing=True # simuntanous processing of all frames
+            media_stream_constraints={
+                "video": True,
+                "audio": False
+            },
+            async_processing=True
         )
 
         sync_metrics_update(context)
