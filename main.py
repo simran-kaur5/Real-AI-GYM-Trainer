@@ -300,13 +300,14 @@ def main():
     else:
 
         context = webrtc_streamer(
-            key="exercise-analysis",
+            key="exercise-analysis-v2",
             mode=WebRtcMode.SENDRECV,
-            video_processor_factory=VideoProcessorClass,
             rtc_configuration={
                 "iceServers": [
                     {
-                        "urls": ["stun:stun.l.google.com:19302"]
+                        "urls": ["stun:stun.l.google.com:19302",
+                                 "stun:stun1.l.google.com:19302"
+                        ]
                     }
                 ]
             },
