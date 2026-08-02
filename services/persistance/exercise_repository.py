@@ -4,7 +4,24 @@ from pathlib import Path
 
 
 _DB_PATH = str(Path(__file__).parent.parent.parent / "data.db")
+
 @st.cache_resource
+
+def create_tables():
+    conn = sqlite3.connect(_DB_PATH)
+    cursor = conn.cursor()
+
+    # your CREATE TABLE queries here
+
+    conn.commit()
+    conn.close()
+
+
+# initialize database if missing
+if not Path(_DB_PATH).exists():
+    create_tables()
+
+    
 def _get_connection():
     conn = sqlite3.connect(_DB_PATH,check_same_thread=False)
     conn.row_factory = sqlite3.Row
