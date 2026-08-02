@@ -7,23 +7,15 @@ from services.state.session_default import initial_session_default
 from services.config.workout_config import EXERCISE_OPTIONS
 from services.ui.style_loader import load_css,inject_local_font
 from services.persistance.exercise_repository import _init_db
-from streamlit_webrtc import webrtc_streamer,WebRtcMode,RTCConfiguration
-from services.tracking.metrics import sync_metrics_update
+from streamlit_webrtc import webrtc_streamer,WebRtcMode
 from services.vision.exercise_video_processor import VideoProcessorClass
+from services.tracking.metrics import sync_metrics_update
 from services.persistance.exercise_repository import get_users_exercise
 from groq import Groq
 from services.coaching.llm import LLMCoach
 from services.coaching.tts import TextToSpeech
 from services.coaching.voice_pipeline import VoicePipeline, autoplay_audio
 from dotenv import load_dotenv
-
-
-import os
-import sys
-
-print("CURRENT DIR:", os.getcwd())
-print("FILES:", os.listdir())
-print("PYTHON PATH:", sys.path)
 
 def main():
     st.set_page_config(
@@ -81,7 +73,7 @@ def main():
 
             st.markdown("")
 
-            start_session_button = st.button("Start Session",width="stretch",key="start_session_button")
+            start_session_button = st.button("Start Session",width="stretch",key="start-session-button")
 
             if start_session_button:
                 st.session_state.exercise_type = plan_exercise
@@ -121,7 +113,7 @@ def main():
                     result = st.session_state.voice_pipeline.process_event(
                         event="workout_completed",
                         exercise=exercise,
-                        metrics= {}
+                        metrics= []
                     )
 
                     if result:
@@ -306,25 +298,16 @@ def main():
             </div>
         """,unsafe_allow_html=True)
     else:
-
-        RTC_CONFIGURATION = RTCConfiguration(
-    {
-        "iceServers": [
-            {"urls": ["stun:stun.l.google.com:19302"]}
-        ]
-    }
-)
-
         context = webrtc_streamer(
-            key="gym-trainer",
+            key="exerise-analysis",
             mode=WebRtcMode.SENDRECV,
-            rtc_configuration=RTC_CONFIGURATION,
-            video_processor_factory=VideoProcessorClass,
-            media_stream_constraints={
-                "video": True,
-                "audio": False,
+            video_processor_factory=VideoProcessorClass, # no video processing
+            rtc_configuration={"iceServers":[{"urls":["stun:stun.l.google.com:19302"]}]},
+            media_stream_constraints={ # what media to req
+                "video":True,
+                "audio":False
             },
-            async_processing=False,
+            async_processing=True # simuntanous processing of all frames
         )
 
         sync_metrics_update(context)
