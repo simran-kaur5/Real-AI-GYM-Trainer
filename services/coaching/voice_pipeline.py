@@ -8,8 +8,6 @@ class VoicePipeline:
         self.last_spoken_at =0
 
     def _find_form_issue(self,exercise,metrics):
-        print("Checking issue for:", exercise)
-        print("Metrics received:", metrics)
         if "issue" in metrics:
             return metrics["issue"] # if detector itself found a issue
 
@@ -74,7 +72,6 @@ class VoicePipeline:
 
 
     def process_event(self,event,exercise,metrics):
-        print("Event received:", event)
         issue = self._find_form_issue(exercise,metrics)
         
 
@@ -89,12 +86,6 @@ class VoicePipeline:
             if now - self.last_spoken_at < 5:
                 return None
 
-        print("process_event called")
-        print("Event:", event)
-        print("Exercise:", exercise)
-        print("Metrics:", metrics)
-
-
         text = self.llm.give_feedback(event,issue) 
         voice = self.tts.speech(text)
 
@@ -107,5 +98,5 @@ def autoplay_audio(audio_bytes):
     if not audio_bytes:
         return
 
-    st.markdown("<style>[data-testid='stAudio'] {diplay: none;}</style>",unsafe_allow_html=True)
+    st.markdown("<style>[data-testid='stAudio'] {display: none;}</style>",unsafe_allow_html=True)
     st.audio(audio_bytes,format="audio/mp3",autoplay=True)
