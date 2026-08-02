@@ -17,6 +17,13 @@ from services.coaching.tts import TextToSpeech
 from services.coaching.voice_pipeline import VoicePipeline, autoplay_audio
 from dotenv import load_dotenv
 
+import os
+import sys
+
+print("CURRENT DIR:", os.getcwd())
+print("FILES:", os.listdir())
+print("PYTHON PATH:", sys.path)
+
 def main():
     st.set_page_config(
     page_icon = "🏋️",
