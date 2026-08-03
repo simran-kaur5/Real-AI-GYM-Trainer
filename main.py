@@ -73,7 +73,7 @@ def main():
 
             st.markdown("")
 
-            start_session_button = st.button("Start Session",width="stretch",key="start-session-button")
+            start_session_button = st.button("Start Session",width="stretch",key="start_session_button")
 
             if start_session_button:
                 st.session_state.exercise_type = plan_exercise
@@ -113,7 +113,7 @@ def main():
                     result = st.session_state.voice_pipeline.process_event(
                         event="workout_completed",
                         exercise=exercise,
-                        metrics= []
+                        metrics= {}
                     )
 
                     if result:
@@ -315,29 +315,18 @@ def main():
             key="exercise-analysis",
             mode=WebRtcMode.SENDRECV,
             video_processor_factory=VideoProcessorClass,
-
-            rtc_configuration=RTC_CONFIGURATION,
-
+            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
             media_stream_constraints={
-                "video": {
-                    "width": {"ideal": 640},
-                    "height": {"ideal": 480},
-                    "frameRate": {"ideal": 15}
-                },
+                "video": True,
                 "audio": False
             },
-
             async_processing=True
             )
-        st.write(context.state)
         sync_metrics_update(context)
 
         if context.state.playing:
-            st.write("WebRTC connected")
             time.sleep(0.25)
             st.rerun()
-        else:
-            st.write("WebRTC not connected")
 
     st.divider()
 
