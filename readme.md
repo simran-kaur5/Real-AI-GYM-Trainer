@@ -82,9 +82,9 @@ streamlit run main.py
 
 ## Live Demo
 
-**Landing Page:** *(https://reliable-meerkat-8df671.netlify.app/)*
+**Landing Page:** *https://reliable-meerkat-8df671.netlify.app/*
 
-**Application:** *(https://real-ai-gym-trainer.streamlit.app/)*
+**Application:** *https://real-ai-gym-trainer.streamlit.app/*
 
 ## Future Improvements
 
